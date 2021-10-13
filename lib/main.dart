@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:progress_indicator/progress_indicator.dart';
 import 'package:school_bell/core/time.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'K.S.A. School Bell',
+      title: 'Kirpal Sagar Academy - School Bell',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -28,26 +29,39 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('K.S.A. School Bell'),
+        title: const Text('Kirpal Sagar Acedemy - School Bell'),
       ),
-      body: Center(
-        child: Container(
-          width: 500,
-          child: Timer(),
+      body: Container(
+        color: Colors.grey[300],
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 500,
+                child: CurrentPeriodCard(),
+              ),
+              SizedBox(height: 30),
+              Container(
+                width: 500,
+                child: TimerCard(),
+              ),
+              SizedBox(height: 30),
+              Container(
+                width: 500,
+                child: CurrentTimeCard(),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class Timer extends StatefulWidget {
-  const Timer({Key? key}) : super(key: key);
+class CurrentPeriodCard extends StatelessWidget {
+  const CurrentPeriodCard({Key? key}) : super(key: key);
 
-  @override
-  State<Timer> createState() => _TimerState();
-}
-
-class _TimerState extends State<Timer> {
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -56,12 +70,79 @@ class _TimerState extends State<Timer> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             const ListTile(
-              leading: Icon(Icons.doorbell),
-              title: Text('Next ringing'),
-              subtitle: Text(
-                  'Countdown for the time until the next ringing of the school bell'),
+              leading: Icon(Icons.home),
+              // leading: Icon(Icons.school),
+              title: Text('Current period'),
             ),
-            CountdownDisplay(countdownInSec: 100),
+            Text('Morning tea'),
+            Container(
+              //width: 100,
+              child: BarProgress(
+                percentage: 30.0,
+                color: Colors.black,
+                backColor: Colors.grey,
+//                gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
+                showPercentage: false,
+                // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
+                stroke: 20,
+                round: false,
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [Text('8:10 a.m.'), Text('8:50 a.m.')],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CurrentTimeCard extends StatelessWidget {
+  const CurrentTimeCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              // leading: Icon(Icons.home),
+              // leading: Icon(Icons.wb_sunny),
+              leading: Icon(Icons.ac_unit),
+              title: Text('Current time'),
+            ),
+            Text('Wednesday, 12-10-2021, 8:40 p.m.'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TimerCard extends StatefulWidget {
+  const TimerCard({Key? key}) : super(key: key);
+
+  @override
+  State<TimerCard> createState() => _TimerCardState();
+}
+
+class _TimerCardState extends State<TimerCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.alarm),
+              title: Text('Next ringing'),
+            ),
+            CountdownDisplay(countdownInSec: 98),
           ],
         ),
       ),
