@@ -31,7 +31,10 @@ class HomePage extends StatelessWidget {
         title: const Text('K.S.A. School Bell'),
       ),
       body: Center(
-        child: Timer(),
+        child: Container(
+          width: 500,
+          child: Timer(),
+        ),
       ),
     );
   }
@@ -47,58 +50,62 @@ class Timer extends StatefulWidget {
 class _TimerState extends State<Timer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 600,
-        height: 600,
-        decoration: BoxDecoration(
-          border: Border.all(width: 5.0),
-          borderRadius: BorderRadius.all(
-              Radius.circular(35.0) //                 <--- border radius here
-              ),
+    return Center(
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const ListTile(
+              leading: Icon(Icons.doorbell),
+              title: Text('Next ringing'),
+              subtitle: Text(
+                  'Countdown for the time until the next ringing of the school bell'),
+            ),
+            CountdownDisplay(countdownInSec: 100),
+          ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(
-              Radius.circular(30.0) //                 <--- border radius here
-              ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: Container(
-                  color: Colors.grey,
-                  child: Center(
-                    child: Text("1st Period"),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  color: Colors.yellow,
-                  child: Center(
-                    child: Text("00:02:01"),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ));
+      ),
+    );
   }
 }
 
 class CountdownDisplay extends StatelessWidget {
-  final CountdownDisplayModel _countdownDisplayModel;
+  final CountdownDisplayModel _model;
 
   CountdownDisplay({Key? key, required int countdownInSec})
-      : _countdownDisplayModel = CountdownDisplayModel(countdownInSec: countdownInSec),
+      : _model = CountdownDisplayModel(countdownInSec: countdownInSec),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Row(
-        children: [],
-      )
-    ],);
+    return Row(
+      children: [
+        Column(
+          children: [
+            Text(_model.hours),
+            const Text('hours'),
+          ],
+        ),
+        Column(
+          children: [Align(child: Text(':'))],
+        ),
+        Column(
+          children: [
+            Text(_model.minutes),
+            const Text('minutes'),
+          ],
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: const [Text(':')],
+        ),
+        Column(
+          children: [
+            Text(_model.seconds),
+            const Text('seconds'),
+          ],
+        ),
+      ],
+    );
   }
 }
