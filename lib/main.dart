@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Kirpal Sagar Acedemy - School Bell'),
+        title: const Text('Kirpal Sagar Academy - School Bell'),
       ),
       body: Container(
         color: Colors.grey[300],
