@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:school_bell/core/schedule.dart';
 import "package:test/test.dart";
 
@@ -65,6 +66,15 @@ void main() {
 
       expect(time1 >= time2, isTrue);
       expect(time2 >= time1, isTrue);
+    });
+
+    test('Should calculate time in schedule', () {
+      var time = const Time(hour: 8, minute: 00);
+
+      DateTime timeToday = time.today();
+
+      expect(timeToday.hour, equals(time.hour));
+      expect(timeToday.minute, equals(time.minute));
     });
   });
 }

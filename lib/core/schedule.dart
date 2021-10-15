@@ -168,4 +168,9 @@ class Time extends Equatable {
   bool operator >=(Time other) {
     return (hour * 60 + minute) >= (other.hour * 60 + other.minute);
   }
+
+  DateTime today() {
+    var now = DateTime.now();
+    return DateTime(now.year, now.month, now.day, hour, minute);
+  }
 }
