@@ -14,12 +14,17 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
   ScheduleBloc(this._bellBloc)
       : super(
-          ScheduleState(Schedule.nextPeriod(DateTime.now())),
+          ScheduleState(
+              currentRoutine: Schedule.nextPeriod(DateTime.now()),
+              nextRinging: Schedule.nextRinging(DateTime.now())),
         ) {
     on<ClockTicked>((event, emit) {
       if (event.time.isAfter(state.currentRoutine.end.today())) {
         _bellBloc.add(BellRun());
-        emit(ScheduleState(Schedule.nextPeriod(event.time)));
+        emit(ScheduleState(
+          currentRoutine: Schedule.nextPeriod(event.time),
+          nextRinging: Schedule.nextRinging(event.time),
+        ));
       } else {
         emit(state);
       }

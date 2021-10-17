@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
 import 'package:school_bell/core/time.dart';
+import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
+
+import 'bell_bloc/bell_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +20,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(),
+      home: BlocProvider<BellBloc>(
+        create: (BuildContext context) => BellBloc(),
+        child: BlocProvider<ScheduleBloc>(
+          create: (BuildContext context) => ScheduleBloc(
+            context.read<BellBloc>(),
+          ),
+          child: const HomePage(),
+        ),
+      ),
       debugShowCheckedModeBanner: false,
     );
   }

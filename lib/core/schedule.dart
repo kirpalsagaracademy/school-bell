@@ -35,6 +35,37 @@ abstract class Schedule {
     // https://api.flutter.dev/flutter/package-collection_collection/binarySearch.html
     // binarySearch(sortedList, value)
   }
+
+  static DateTime nextRinging(DateTime time) {
+    var schedule = Schedule.forDate(
+      year: time.year,
+      month: time.month,
+      day: time.day,
+    );
+    var now = Time(hour: time.hour, minute: time.minute);
+    for (var period in schedule.timetable) {
+      if (period.name.toLowerCase().contains("period") && period.end < now) {
+        return DateTime(
+          time.year,
+          time.month,
+          time.hour,
+          period.start.hour,
+          period.start.minute,
+        );
+      }
+    }
+
+    var firstSchoolRoutine = schedule.timetable
+        .firstWhere((r) => r.name.toLowerCase().contains("period"));
+    var timePlusOneDay = time.add(const Duration(days: 1));
+    return DateTime(
+      timePlusOneDay.year,
+      timePlusOneDay.month,
+      timePlusOneDay.hour,
+      firstSchoolRoutine.start.hour,
+      firstSchoolRoutine.start.minute,
+    );
+  }
 }
 
 class SummerSchedule extends Schedule {
