@@ -23,9 +23,10 @@ class MyApp extends StatelessWidget {
       home: BlocProvider<BellBloc>(
         create: (BuildContext context) => BellBloc(),
         child: BlocProvider<ScheduleBloc>(
-          create: (BuildContext context) => ScheduleBloc(
-            context.read<BellBloc>(),
-          ),
+          create: (BuildContext context) =>
+              ScheduleBloc(
+                context.read<BellBloc>(),
+              ),
           child: const HomePage(),
         ),
       ),
@@ -135,29 +136,28 @@ class CurrentTimeCard extends StatelessWidget {
   }
 }
 
-class TimerCard extends StatefulWidget {
+class TimerCard extends StatelessWidget {
   const TimerCard({Key? key}) : super(key: key);
 
   @override
-  State<TimerCard> createState() => _TimerCardState();
-}
-
-class _TimerCardState extends State<TimerCard> {
-  @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.alarm),
-              title: Text('Next ringing'),
+    return BlocBuilder<ScheduleBloc, ScheduleState>(
+      builder: (context, state) {
+        return Center(
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                const ListTile(
+                  leading: Icon(Icons.alarm),
+                  title: Text('Next ringing'),
+                ),
+                CountdownDisplay(countdownInSec: state.nextRinging.difference(DateTime.now()).inSeconds),
+              ],
             ),
-            CountdownDisplay(countdownInSec: 98),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
