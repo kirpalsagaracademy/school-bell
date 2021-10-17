@@ -20,15 +20,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<BellBloc>(
-        create: (BuildContext context) => BellBloc(),
-        child: BlocProvider<ScheduleBloc>(
-          create: (BuildContext context) =>
-              ScheduleBloc(
-                context.read<BellBloc>(),
-              ),
-          child: const HomePage(),
-        ),
+      home: BlocProvider<ScheduleBloc>(
+        create: (BuildContext context) => ScheduleBloc(),
+        child: const HomePage(),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -143,6 +137,7 @@ class TimerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ScheduleBloc, ScheduleState>(
       builder: (context, state) {
+        print("Building countdown");
         return Center(
           child: Card(
             child: Column(
@@ -152,7 +147,9 @@ class TimerCard extends StatelessWidget {
                   leading: Icon(Icons.alarm),
                   title: Text('Next ringing'),
                 ),
-                CountdownDisplay(countdownInSec: state.nextRinging.difference(DateTime.now()).inSeconds),
+                CountdownDisplay(
+                    countdownInSec:
+                        state.nextRinging.difference(DateTime.now()).inSeconds),
               ],
             ),
           ),

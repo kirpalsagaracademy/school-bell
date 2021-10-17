@@ -45,26 +45,25 @@ abstract class Schedule {
     var now = Time(hour: time.hour, minute: time.minute);
     for (var period in schedule.timetable) {
       if (period.name.toLowerCase().contains("period") && period.end < now) {
-        return DateTime(
+        var dateTime = DateTime(
           time.year,
           time.month,
-          time.hour,
+          time.day,
           period.start.hour,
           period.start.minute,
         );
+        if (dateTime.isBefore(time)) {
+          print("return created datetime plus 1 day");
+          return dateTime.add(Duration(days: 1));
+        } else {
+          print("return created datetime");
+          return dateTime;
+        }
+
       }
     }
 
-    var firstSchoolRoutine = schedule.timetable
-        .firstWhere((r) => r.name.toLowerCase().contains("period"));
-    var timePlusOneDay = time.add(const Duration(days: 1));
-    return DateTime(
-      timePlusOneDay.year,
-      timePlusOneDay.month,
-      timePlusOneDay.hour,
-      firstSchoolRoutine.start.hour,
-      firstSchoolRoutine.start.minute,
-    );
+    throw "could not find matching time";
   }
 }
 
