@@ -39,8 +39,26 @@ void main() {
       expect(currentRoutine.end, equals(const Time(hour: 20, minute: 15)));
     });
 
-    test('Should find out current period', () {
+    test('Should find out current routine with start of period', () {
+      var time = const Time(hour: 8, minute: 10);
+      var date = const Date(year: 2021, month: 10, day: 19);
 
+      var currentRoutine = Schedule.currentRoutine(time.atDate(date));
+
+      expect(currentRoutine.name, equals('1st period'));
+      expect(currentRoutine.start, equals(const Time(hour: 8, minute: 10)));
+      expect(currentRoutine.end, equals(const Time(hour: 8, minute: 50)));
+    });
+
+    test('Should find out current routine with period in progress', () {
+      var time = const Time(hour: 8, minute: 15);
+      var date = const Date(year: 2021, month: 10, day: 19);
+
+      var currentRoutine = Schedule.currentRoutine(time.atDate(date));
+
+      expect(currentRoutine.name, equals('1st period'));
+      expect(currentRoutine.start, equals(const Time(hour: 8, minute: 10)));
+      expect(currentRoutine.end, equals(const Time(hour: 8, minute: 50)));
     });
 
     test('Should not apply schedule on Saturday', () {

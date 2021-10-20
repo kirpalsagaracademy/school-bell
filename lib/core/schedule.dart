@@ -20,23 +20,40 @@ abstract class Schedule {
   List<Routine> get timetable;
 
   static Routine currentRoutine(DateTime currentDateTime) {
+    var currentTime = Time.fromDateTime(currentDateTime);
     var schedule = Schedule.forDate(
       year: currentDateTime.year,
       month: currentDateTime.month,
       day: currentDateTime.day,
     );
 
-    // for (var routine in schedule.timetable) {
-    //   var startTime = routine.start.atDate(time.date);
-    //   var endTime = routine.end.atDate(time.date);
-    //
-    //   routine.start;
-    //   routine.end;
-    // }
+    for (int i = 0; i < schedule.timetable.length; i++) {
+      Routine? matchingRoutine;
+
+      var routine = schedule.timetable[i];
+
+      if (currentTime >= routine.start && currentTime <= routine.end) {
+        matchingRoutine = routine;
+      }
+
+      if (matchingRoutine == null) {
+        continue;
+      }
+
+      Routine? nextRoutine;
+      if (i + 1 < schedule.timetable.length) {
+        nextRoutine = schedule.timetable[i + 1];
+      }
+      if (nextRoutine != null) {
+        if (currentTime == nextRoutine.start) {
+          matchingRoutine = nextRoutine;
+        }
+      }
+
+      return matchingRoutine;
+    }
 
     // Time is not defined in any official routine
-
-    var currentTime = Time.fromDateTime(currentDateTime);
 
     // Find routine with biggest end time before "time"
     late Routine routineJustBefore;
@@ -404,6 +421,11 @@ class Time extends Equatable {
 
   bool operator >=(Time other) {
     return (hour * 60 + minute) >= (other.hour * 60 + other.minute);
+  }
+
+  // TODO Add unit test
+  bool operator <=(Time other) {
+    return (hour * 60 + minute) <= (other.hour * 60 + other.minute);
   }
 
   DateTime today() {
