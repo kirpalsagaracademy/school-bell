@@ -79,7 +79,7 @@ class CurrentPeriodCard extends StatelessWidget {
             const ListTile(
               leading: Icon(Icons.home),
               // leading: Icon(Icons.school),
-              title: Text('Current period'),
+              title: Text('Current routine'),
             ),
             Text('Morning tea'),
             Container(
@@ -145,7 +145,7 @@ class TimerCard extends StatelessWidget {
               children: <Widget>[
                 const ListTile(
                   leading: Icon(Icons.alarm),
-                  title: Text('Next ringing'),
+                  title: Text('Next school bell ringing'),
                 ),
                 CountdownDisplay(
                     countdownInSec:

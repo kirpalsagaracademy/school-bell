@@ -3,8 +3,8 @@ import 'package:school_bell/core/schedule.dart';
 import "package:test/test.dart";
 
 void main() {
-  group('Summer vs. Winter time', () {
-    test('Should use Summer schedule', () {
+  group('Should determine whether to use winter or summer routine', () {
+    test('Should use summer routine', () {
       expect(
         Schedule.forDate(year: 2021, month: 04, day: 01),
         const TypeMatcher<SummerSchedule>(),
@@ -15,7 +15,7 @@ void main() {
       );
     });
 
-    test('Should use Winter schedule', () {
+    test('Should use winter routine', () {
       expect(
         Schedule.forDate(year: 2021, month: 11, day: 01),
         const TypeMatcher<WinterSchedule>(),
@@ -27,22 +27,46 @@ void main() {
     });
   });
 
-  group('Calculate next period', () {
-    test('Should calculate first period starting in ten minutes', () {
-      var now = DateTime(2021, 10, 13, 08, 00);
-      var nextPeriod = Schedule.nextPeriod(now);
+  group('Should calculate current period', () {
+    test('Should default to spare time if not specified', () {
+      var time = const Time(hour: 20, minute: 00);
+      var date = const Date(year: 2021, month: 10, day: 19);
 
-      expect(nextPeriod.name, equals("1st period"));
+      var currentRoutine = Schedule.currentRoutine(time.atDate(date));
+
+      expect(currentRoutine.name, equals('Spare time'));
+      expect(currentRoutine.start, equals(const Time(hour: 19, minute: 55)));
+      expect(currentRoutine.end, equals(const Time(hour: 20, minute: 15)));
     });
 
-    test('Should calculate first period at next day', () {
-      var now = DateTime(2021, 10, 13, 17, 00);
-      var nextPeriod = Schedule.nextPeriod(now);
+    test('Should find out current period', () {
 
-      expect(nextPeriod.name, equals("1st period"));
+    });
+
+    test('Should not apply schedule on Saturday', () {
+
+    });
+
+    test('Should not apply schedule on Sunday', () {
+
     });
   });
 
+  group('Should calculate next ringing', () {
+    test('Should ring with first period of the current day', () {
+
+    });
+
+    test('Should ring with first period of next day', () {
+
+    });
+
+    test('Should ring with next period', () {
+
+    });
+  });
+
+  // TODO Probably this should be moved into "time_test.dart".
   group('Time comparison', () {
     test('Should determine time before', () {
       var before = const Time(hour: 8, minute: 00);

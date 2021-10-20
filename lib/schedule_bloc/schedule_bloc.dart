@@ -20,7 +20,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   ScheduleBloc()
       : super(
           ScheduleState(
-              currentRoutine: Schedule.nextPeriod(DateTime.now()),
+              currentRoutine: Schedule.currentRoutine(DateTime.now()),
               nextRinging: Schedule.nextRinging(DateTime.now())),
         ) {
     try {
@@ -37,7 +37,7 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
       print("On clock ticked");
       emit(
         ScheduleState(
-          currentRoutine: Schedule.nextPeriod(DateTime.now()),
+          currentRoutine: Schedule.currentRoutine(DateTime.now()),
           nextRinging: Schedule.nextRinging(DateTime.now()),
         ),
       );
