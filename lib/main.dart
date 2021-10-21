@@ -148,8 +148,10 @@ class TimerCard extends StatelessWidget {
                   title: Text('Next school bell ringing'),
                 ),
                 CountdownDisplay(
-                    countdownInSec:
-                        state.nextRinging.difference(DateTime.now()).inSeconds),
+                  countdownInSec: state.nextRinging.dateTime
+                      .difference(DateTime.now())
+                      .inSeconds,
+                ),
               ],
             ),
           ),
