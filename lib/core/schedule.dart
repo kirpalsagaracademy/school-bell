@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
+import 'package:school_bell/core/time.dart';
 
 /// https://kirpalsagaracademy.com/4010000000143.html
 abstract class Schedule {
@@ -88,7 +89,8 @@ abstract class Schedule {
 
         if (routineStartAtCurrentDay.isBefore(time)) {
           return RingingModel(
-            routineStartAtCurrentDay.add(const Duration(days: 1)),
+            // TODO Improve readability of this expression
+            routineStartAtCurrentDay.atNextWorkingDay(),
             routine,
           );
         } else {

@@ -24,3 +24,18 @@ class CountdownDisplayModel {
     return _seconds.toString().padLeft(2, "0");
   }
 }
+
+extension DateTimeExtension on DateTime {
+
+  DateTime atNextWorkingDay() {
+    late int offset;
+    if (weekday < DateTime.friday || weekday == DateTime.sunday) {
+      offset = 1;
+    } else if (weekday == DateTime.friday) {
+      offset = 3;
+    } else if (weekday == DateTime.saturday) {
+      offset = 2;
+    }
+    return add(Duration(days: offset));
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:school_bell/core/schedule.dart';
 import 'package:school_bell/core/time.dart';
 import "package:test/test.dart";
 
@@ -45,6 +46,20 @@ void main() {
       expect(countdownModel.hours, equals("03"));
       expect(countdownModel.minutes, equals("59"));
       expect(countdownModel.seconds, equals("01"));
+    });
+  });
+
+  group('DateTime extensions', () {
+    test('Should move date to next working day', () {
+      var time = const Time(hour: 19, minute: 52);
+      var date = const Date(year: 2021, month: 10, day: 22);
+
+      var result = time.atDate(date).atNextWorkingDay();
+
+      expect(result.weekday, equals(DateTime.monday));
+      expect(result.year, equals(2021));
+      expect(result.month, equals(10));
+      expect(result.day, equals(25));
     });
   });
 }
