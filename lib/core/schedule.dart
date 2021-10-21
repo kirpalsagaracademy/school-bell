@@ -35,33 +35,13 @@ abstract class Schedule {
       day: currentDateTime.day,
     );
 
-    for (int i = 0; i < schedule.timetable.length; i++) {
-      Routine? matchingRoutine;
-
-      var routine = schedule.timetable[i];
-
-      if (currentTime >= routine.start && currentTime <= routine.end) {
-        matchingRoutine = routine;
-      }
-
-      if (matchingRoutine == null) {
-        continue;
-      }
-
-      Routine? nextRoutine;
-      if (i + 1 < schedule.timetable.length) {
-        nextRoutine = schedule.timetable[i + 1];
-      }
-      if (nextRoutine != null) {
-        if (currentTime == nextRoutine.start) {
-          matchingRoutine = nextRoutine;
-        }
-      }
-
+    Routine? matchingRoutine = _findMatchingRoutine(
+      schedule.timetable,
+      currentTime,
+    );
+    if (matchingRoutine != null) {
       return matchingRoutine;
     }
-
-    // Time is not defined in any official routine
 
     // Find routine with biggest end time before "time"
     late Routine routineJustBefore;
@@ -116,6 +96,34 @@ abstract class Schedule {
     }
 
     throw "could not find matching time";
+  }
+
+  static Routine? _findMatchingRoutine(
+    List<Routine> timetable,
+    Time currentTime,
+  ) {
+    Routine? matchingRoutine;
+    for (int i = 0; i < timetable.length; i++) {
+      var routine = timetable[i];
+
+      if (currentTime >= routine.start && currentTime <= routine.end) {
+        matchingRoutine = routine;
+      }
+
+      if (matchingRoutine == null) {
+        continue;
+      }
+
+      Routine? nextRoutine;
+      if (i + 1 < timetable.length) {
+        nextRoutine = timetable[i + 1];
+      }
+      if (nextRoutine != null && currentTime == nextRoutine.start) {
+        matchingRoutine = nextRoutine;
+      }
+      break;
+    }
+    return matchingRoutine;
   }
 }
 
