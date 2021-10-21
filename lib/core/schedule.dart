@@ -20,6 +20,14 @@ abstract class Schedule {
   List<Routine> get timetable;
 
   static Routine currentRoutine(DateTime currentDateTime) {
+    if (currentDateTime.weekday == DateTime.saturday) {
+      return const Saturday();
+    }
+
+    if (currentDateTime.weekday == DateTime.sunday) {
+      return const Sunday();
+    }
+
     var currentTime = Time.fromDateTime(currentDateTime);
     var schedule = Schedule.forDate(
       year: currentDateTime.year,
@@ -395,6 +403,24 @@ class SpareTime extends Routine {
           name: 'Spare time',
           start: start,
           end: end,
+        );
+}
+
+class Saturday extends Routine {
+  const Saturday()
+      : super(
+          name: 'Saturday',
+          start: const Time(hour: 00, minute: 00),
+          end: const Time(hour: 24, minute: 00),
+        );
+}
+
+class Sunday extends Routine {
+  const Sunday()
+      : super(
+          name: 'Sunday',
+          start: const Time(hour: 00, minute: 00),
+          end: const Time(hour: 24, minute: 00),
         );
 }
 

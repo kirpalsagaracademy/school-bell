@@ -62,11 +62,25 @@ void main() {
     });
 
     test('Should not apply schedule on Saturday', () {
+      var time = const Time(hour: 8, minute: 15);
+      var date = const Date(year: 2021, month: 10, day: 23);
 
+      var currentRoutine = Schedule.currentRoutine(time.atDate(date));
+
+      expect(currentRoutine.name, equals('Saturday'));
+      expect(currentRoutine.start, equals(const Time(hour: 00, minute: 00)));
+      expect(currentRoutine.end, equals(const Time(hour: 24, minute: 00)));
     });
 
     test('Should not apply schedule on Sunday', () {
+      var time = const Time(hour: 8, minute: 15);
+      var date = const Date(year: 2021, month: 10, day: 24);
 
+      var currentRoutine = Schedule.currentRoutine(time.atDate(date));
+
+      expect(currentRoutine.name, equals('Sunday'));
+      expect(currentRoutine.start, equals(const Time(hour: 00, minute: 00)));
+      expect(currentRoutine.end, equals(const Time(hour: 24, minute: 00)));
     });
   });
 
