@@ -69,28 +69,33 @@ abstract class Schedule {
     );
   }
 
-  static DateTime nextRinging(DateTime time) {
+  static RingingModel nextRinging(DateTime time) {
     var schedule = Schedule.forDate(
       year: time.year,
       month: time.month,
       day: time.day,
     );
-    var now = Time(hour: time.hour, minute: time.minute);
-    for (var period in schedule.timetable) {
-      if (period.name.toLowerCase().contains("period") && period.end < now) {
-        var dateTime = DateTime(
-          time.year,
-          time.month,
-          time.day,
-          period.start.hour,
-          period.start.minute,
-        );
-        if (dateTime.isBefore(time)) {
-          print("return created datetime plus 1 day");
-          return dateTime.add(Duration(days: 1));
+    var timeNow = Time(hour: time.hour, minute: time.minute);
+    for (var routine in schedule.timetable) {
+      // TODO Refactor to "isSchoolRoutine" property
+      var isSchoolRoutine = routine.name.toLowerCase().contains("period");
+      if (isSchoolRoutine && routine.start > timeNow) {
+        var routineStartAtCurrentDay = routine.start.atDate(Date(
+          year: time.year,
+          month: time.month,
+          day: time.day,
+        ));
+
+        if (routineStartAtCurrentDay.isBefore(time)) {
+          return RingingModel(
+            routineStartAtCurrentDay.add(const Duration(days: 1)),
+            routine,
+          );
         } else {
-          print("return created datetime");
-          return dateTime;
+          return RingingModel(
+            routineStartAtCurrentDay,
+            routine,
+          );
         }
       }
     }
@@ -487,4 +492,11 @@ extension DateTimeExtension on DateTime {
   Date get date {
     return Date(year: year, month: month, day: day);
   }
+}
+
+class RingingModel {
+  final DateTime dateTime;
+  final Routine routine;
+
+  RingingModel(this.dateTime, this.routine);
 }

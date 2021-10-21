@@ -1,6 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:school_bell/core/schedule.dart';
-import "package:test/test.dart";
+import 'package:test/test.dart';
 
 void main() {
   group('Should determine whether to use winter or summer routine', () {
@@ -85,15 +84,26 @@ void main() {
   });
 
   group('Should calculate next ringing', () {
-    test('Should ring with first period of the current day', () {
+    test('Should ring at start of first period of the current day', () {
+      var time = const Time(hour: 6, minute: 52);
+      var date = const Date(year: 2021, month: 10, day: 21);
+
+      var ringing = Schedule.nextRinging(time.atDate(date));
+
+      expect(ringing.routine.name, equals('1st period'));
+      expect(ringing.routine.start, equals(const Time(hour: 8, minute: 10)));
+      expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
+    });
+
+    test('Should ring at start of first period of next day', () {});
+
+    test('Should ring at start of next period', () {});
+
+    test('Should ring at start of first period at day after weekend', () {
 
     });
 
-    test('Should ring with first period of next day', () {
-
-    });
-
-    test('Should ring with next period', () {
+    test('Should ring at end of school routine before break', () {
 
     });
   });
