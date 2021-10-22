@@ -20,6 +20,12 @@ abstract class Schedule {
 
   List<Routine> get timetable;
 
+  List<Routine> get periods {
+    return timetable
+        .where((element) => element.name.toLowerCase().contains('period'))
+        .toList();
+  }
+
   static Routine currentRoutine(DateTime currentDateTime) {
     if (currentDateTime.weekday == DateTime.saturday) {
       return const Saturday();
@@ -70,24 +76,52 @@ abstract class Schedule {
     );
   }
 
-  static RingingModel nextRinging(DateTime time) {
+  static RingingModel nextRinging(DateTime currentDateTime) {
     var schedule = Schedule.forDate(
-      year: time.year,
-      month: time.month,
-      day: time.day,
+      year: currentDateTime.year,
+      month: currentDateTime.month,
+      day: currentDateTime.day,
     );
-    var timeNow = Time(hour: time.hour, minute: time.minute);
+    var currentTime = Time(
+      hour: currentDateTime.hour,
+      minute: currentDateTime.minute,
+    );
+    var currentDate = Date(
+      year: currentDateTime.year,
+      month: currentDateTime.month,
+      day: currentDateTime.day,
+    );
+
+    var endOfLastPeriodToday = schedule.periods.last.end.atDate(currentDate);
+    if (currentDateTime.isAfter(endOfLastPeriodToday)) {
+      var futureDateTime = currentDateTime.atNextWorkingDay();
+      // TODO Instead of shifting the current date/time to the next working day there should be a property providing access on the next working day as date.
+      var nextWorkingDay = Date(
+        year: futureDateTime.year,
+        month: futureDateTime.month,
+        day: futureDateTime.day,
+      );
+      var firstPeriod = schedule.periods.first;
+      var startFirstPeriodNextWorkingDay = firstPeriod.start.atDate(
+        nextWorkingDay,
+      );
+      return RingingModel(
+        startFirstPeriodNextWorkingDay,
+        firstPeriod,
+      );
+    }
+
     for (var routine in schedule.timetable) {
       // TODO Refactor to "isSchoolRoutine" property
       var isSchoolRoutine = routine.name.toLowerCase().contains("period");
-      if (isSchoolRoutine && routine.start > timeNow) {
+      if (isSchoolRoutine && routine.start > currentTime) {
         var routineStartAtCurrentDay = routine.start.atDate(Date(
-          year: time.year,
-          month: time.month,
-          day: time.day,
+          year: currentDateTime.year,
+          month: currentDateTime.month,
+          day: currentDateTime.day,
         ));
 
-        if (routineStartAtCurrentDay.isBefore(time)) {
+        if (routineStartAtCurrentDay.isBefore(currentDateTime)) {
           return RingingModel(
             // TODO Improve readability of this expression
             routineStartAtCurrentDay.atNextWorkingDay(),
