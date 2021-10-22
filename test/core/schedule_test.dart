@@ -95,6 +95,21 @@ void main() {
       expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
 
+    test('Should ring at start of next period', () {
+      var time = const Time(hour: 8, minute: 15);
+      var date = const Date(year: 2021, month: 10, day: 22);
+
+      var ringing = Schedule.nextRinging(time.atDate(date));
+
+      expect(ringing.dateTime.day, equals(22));
+      expect(ringing.routine.name, equals('2nd period'));
+      expect(ringing.routine.start, equals(const Time(hour: 8, minute: 50)));
+    });
+
+    test('Should ring at end of school routine before break', () {
+
+    });
+
     test('Should ring at start of first period of next day', () {
       var time = const Time(hour: 19, minute: 52);
       var date = const Date(year: 2021, month: 10, day: 21);
@@ -107,14 +122,16 @@ void main() {
       expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
 
-    test('Should ring at start of next period', () {});
-
     test('Should ring at start of first period at day after weekend', () {
+      var time = const Time(hour: 19, minute: 52);
+      var date = const Date(year: 2021, month: 10, day: 22);
 
-    });
+      var ringing = Schedule.nextRinging(time.atDate(date));
 
-    test('Should ring at end of school routine before break', () {
-
+      expect(ringing.dateTime.day, equals(25));
+      expect(ringing.routine.name, equals('1st period'));
+      expect(ringing.routine.start, equals(const Time(hour: 8, minute: 10)));
+      expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
   });
 
