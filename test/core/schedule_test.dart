@@ -101,12 +101,24 @@ void main() {
 
       var ringing = Schedule.nextRinging(time.atDate(date));
 
-      expect(ringing.dateTime.day, equals(22));
       expect(ringing.routine.name, equals('2nd period'));
+      expect(ringing.dateTime.day, equals(22));
       expect(ringing.routine.start, equals(const Time(hour: 8, minute: 50)));
     });
 
     test('Should ring at end of school routine before break', () {
+      var time = const Time(hour: 10, minute: 30);
+      var date = const Date(year: 2021, month: 10, day: 22);
+
+      var ringing = Schedule.nextRinging(time.atDate(date));
+
+      expect(ringing.routine.name, equals('Milk break'));
+      expect(ringing.dateTime.day, equals(22));
+      expect(ringing.dateTime.hour, equals(10));
+      expect(ringing.dateTime.minute, equals(50));
+    });
+
+    test('Should ring at start of school routine after break', () {
 
     });
 

@@ -95,7 +95,9 @@ abstract class Schedule {
     var endOfLastPeriodToday = schedule.periods.last.end.atDate(currentDate);
     if (currentDateTime.isAfter(endOfLastPeriodToday)) {
       var futureDateTime = currentDateTime.atNextWorkingDay();
-      // TODO Instead of shifting the current date/time to the next working day there should be a property providing access on the next working day as date.
+      // TODO Instead of shifting the current date/time to the next working day
+      //  there should be a property providing access on the next working day
+      //  as date.
       var nextWorkingDay = Date(
         year: futureDateTime.year,
         month: futureDateTime.month,
@@ -111,27 +113,50 @@ abstract class Schedule {
       );
     }
 
-    for (var routine in schedule.timetable) {
-      // TODO Refactor to "isSchoolRoutine" property
-      var isSchoolRoutine = routine.name.toLowerCase().contains("period");
-      if (isSchoolRoutine && routine.start > currentTime) {
-        var routineStartAtCurrentDay = routine.start.atDate(Date(
-          year: currentDateTime.year,
-          month: currentDateTime.month,
-          day: currentDateTime.day,
-        ));
+    for (int i = 0; i < schedule.timetable.length; i++) {
+      var routine = schedule.timetable[i];
 
-        if (routineStartAtCurrentDay.isBefore(currentDateTime)) {
-          return RingingModel(
-            // TODO Improve readability of this expression
-            routineStartAtCurrentDay.atNextWorkingDay(),
-            routine,
-          );
-        } else {
-          return RingingModel(
-            routineStartAtCurrentDay,
-            routine,
-          );
+      Routine? nextRoutine;
+      if (i + 1 < schedule.timetable.length) {
+        nextRoutine = schedule.timetable[i + 1];
+      }
+
+      if (routine.isSchoolPeriod) {
+        if (routine.start > currentTime) {
+          var routineStartAtCurrentDay = routine.start.atDate(Date(
+            year: currentDateTime.year,
+            month: currentDateTime.month,
+            day: currentDateTime.day,
+          ));
+
+          if (routineStartAtCurrentDay.isBefore(currentDateTime)) {
+            // FIXME The day offset calculation here is obsolete
+            return RingingModel(
+              // TODO Improve readability of this expression
+              routineStartAtCurrentDay.atNextWorkingDay(),
+              routine,
+            );
+          } else {
+            return RingingModel(
+              routineStartAtCurrentDay,
+              routine,
+            );
+          }
+        }
+
+        if (nextRoutine != null) {
+          if (nextRoutine.start > currentTime) {
+            var routineStartAtCurrentDay = nextRoutine.start.atDate(Date(
+              year: currentDateTime.year,
+              month: currentDateTime.month,
+              day: currentDateTime.day,
+            ));
+
+            return RingingModel(
+              routineStartAtCurrentDay,
+              nextRoutine,
+            );
+          }
         }
       }
     }
@@ -442,6 +467,11 @@ class Routine extends Equatable {
 
   @override
   List<Object> get props => [name, start, end];
+
+  // TODO Add unit test
+  bool get isSchoolPeriod {
+    return name.toLowerCase().contains('period');
+  }
 }
 
 class SpareTime extends Routine {
