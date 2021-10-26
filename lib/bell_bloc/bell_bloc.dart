@@ -1,9 +1,8 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'bell_event.dart';
+
 part 'bell_state.dart';
 
 class BellBloc extends Bloc<BellEvent, BellState> {

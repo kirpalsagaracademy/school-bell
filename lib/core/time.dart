@@ -1,13 +1,10 @@
-
-
 const secondsInHour = 3600;
 const secondsInMinute = 60;
 
 class CountdownDisplayModel {
   final int _countdownInSec;
 
-  CountdownDisplayModel({required int countdownInSec})
-      : _countdownInSec = countdownInSec;
+  CountdownDisplayModel({required int countdownInSec}) : _countdownInSec = countdownInSec;
 
   String get hours {
     int _hours = _countdownInSec ~/ secondsInHour;
@@ -26,7 +23,6 @@ class CountdownDisplayModel {
 }
 
 extension DateTimeExtension on DateTime {
-
   DateTime atNextWorkingDay() {
     late int offset;
     if (weekday < DateTime.friday || weekday == DateTime.sunday) {
@@ -37,5 +33,13 @@ extension DateTimeExtension on DateTime {
       offset = 2;
     }
     return add(Duration(days: offset));
+  }
+}
+
+class Clock {
+  const Clock();
+
+  Stream<int> tick() {
+    return Stream.periodic(const Duration(seconds: 1), (x) => x++);
   }
 }

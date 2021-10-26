@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:school_bell/bell_bloc/bell_bloc.dart';
 import 'package:school_bell/core/schedule.dart';
+import 'package:school_bell/core/time.dart';
 import 'package:uuid/uuid.dart';
 
 part 'schedule_event.dart';
@@ -11,9 +12,7 @@ part 'schedule_event.dart';
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
-  //final BellBloc _bellBloc;
-
-  final _Clock _clock = const _Clock();
+  final Clock _clock = const Clock();
 
   late StreamSubscription<int> _clockSubscription;
 
@@ -46,10 +45,3 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
   }
 }
 
-class _Clock {
-  const _Clock();
-
-  Stream<int> tick() {
-    return Stream.periodic(Duration(seconds: 1), (x) => x++);
-  }
-}

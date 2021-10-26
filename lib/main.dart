@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
 import 'package:school_bell/core/time.dart';
+import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
 
 import 'bell_bloc/bell_bloc.dart';
@@ -20,8 +21,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<ScheduleBloc>(
-        create: (BuildContext context) => ScheduleBloc(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<ScheduleBloc>(
+            create: (BuildContext context) => ScheduleBloc(),
+          ),
+          BlocProvider<BellBloc>(
+            create: (BuildContext context) => BellBloc(),
+          ),
+        ],
         child: const HomePage(),
       ),
       debugShowCheckedModeBanner: false,
@@ -147,10 +155,9 @@ class TimerCard extends StatelessWidget {
                   leading: Icon(Icons.alarm),
                   title: Text('Next school bell ringing'),
                 ),
-                CountdownDisplay(
-                  countdownInSec: state.nextRinging.dateTime
-                      .difference(DateTime.now())
-                      .inSeconds,
+                BlocProvider(
+                  create: (context) => CountdownBloc(state.nextRinging.dateTime),
+                  child: const CountdownDisplay(),
                 ),
               ],
             ),
@@ -162,42 +169,42 @@ class TimerCard extends StatelessWidget {
 }
 
 class CountdownDisplay extends StatelessWidget {
-  final CountdownDisplayModel _model;
-
-  CountdownDisplay({Key? key, required int countdownInSec})
-      : _model = CountdownDisplayModel(countdownInSec: countdownInSec),
-        super(key: key);
+  const CountdownDisplay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Column(
+    return BlocBuilder<CountdownBloc, CountdownState>(
+      builder: (context, state) {
+        return Row(
           children: [
-            Text(_model.hours),
-            const Text('hours'),
+            Column(
+              children: [
+                Text(state.hours),
+                const Text('hours'),
+              ],
+            ),
+            Column(
+              children: [Align(child: Text(':'))],
+            ),
+            Column(
+              children: [
+                Text(state.minutes),
+                const Text('minutes'),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [Text(':')],
+            ),
+            Column(
+              children: [
+                Text(state.seconds),
+                const Text('seconds'),
+              ],
+            ),
           ],
-        ),
-        Column(
-          children: [Align(child: Text(':'))],
-        ),
-        Column(
-          children: [
-            Text(_model.minutes),
-            const Text('minutes'),
-          ],
-        ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: const [Text(':')],
-        ),
-        Column(
-          children: [
-            Text(_model.seconds),
-            const Text('seconds'),
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
