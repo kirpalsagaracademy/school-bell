@@ -9,8 +9,6 @@ class ScheduleState extends Equatable {
     required this.nextRinging,
   });
 
-  String get randomString => const Uuid().v4();
-
   @override
-  List<Object> get props => [currentRoutine, randomString];
+  List<Object> get props => [currentRoutine];
 }

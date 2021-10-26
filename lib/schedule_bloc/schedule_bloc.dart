@@ -19,27 +19,22 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
 
   ScheduleBloc()
       : super(
-          ScheduleState(
-              currentRoutine: Schedule.currentRoutine(DateTime.now()),
-              nextRinging: Schedule.nextRinging(DateTime.now())),
-        ) {
-    try {
-      _clockSubscription = _clock.tick().listen((event) {
-        add(ClockTicked());
-      });
-    } catch (e) {
-      print("Hello");
-    }
-    ;
-    // print("Hello");
+    ScheduleState(
+      currentRoutine: Schedule.currentRoutine(DateTime.now()),
+      nextRinging: Schedule.nextRinging(DateTime.now()),
+    ),
+  ) {
+    _clockSubscription = _clock.tick().listen((event) {
+      add(ClockTicked());
+    });
+    // TODO Why is the stack trace not printed in case of an exception?
 
-    on<ClockTicked>((event, emit) {
-      print("On clock ticked");
+    on<ClockTicked>((ClockTicked event, Emitter<ScheduleState> emit) {
       emit(
-        ScheduleState(
-          currentRoutine: Schedule.currentRoutine(DateTime.now()),
-          nextRinging: Schedule.nextRinging(DateTime.now()),
-        ),
+          ScheduleState(
+            currentRoutine: Schedule.currentRoutine(DateTime.now()),
+            nextRinging: Schedule.nextRinging(DateTime.now()),
+          )
       );
     });
   }
