@@ -62,4 +62,22 @@ void main() {
       expect(result.day, equals(25));
     });
   });
+
+  group('Time formatting', () {
+    test('Display morning time', () async {
+      var time = const Time(hour: 7, minute: 55);
+      expect(time.toString(), equals('07:55a.m.'));
+    });
+
+    test('Display time noon', () async {
+      var time = const Time(hour: 12, minute: 15);
+      expect(time.toString(), equals('12:15p.m.'));
+    });
+
+    test('Display afternoon time', () async {
+      var time = const Time(hour: 19, minute: 30);
+      expect(time.toString(), equals('7:30p.m.'));
+    });
+
+  });
 }

@@ -21,9 +21,7 @@ abstract class Schedule {
   List<Routine> get timetable;
 
   List<Routine> get periods {
-    return timetable
-        .where((element) => element.name.toLowerCase().contains('period'))
-        .toList();
+    return timetable.where((element) => element.name.toLowerCase().contains('period')).toList();
   }
 
   static Routine currentRoutine(DateTime currentDateTime) {
@@ -540,6 +538,20 @@ class Time extends Equatable {
 
   DateTime atDate(Date date) {
     return DateTime(date.year, date.month, date.day, hour, minute);
+  }
+
+  bool get isBeforeNoon {
+    return hour < 12;
+  }
+
+  @override
+  String toString() {
+    var suffix = isBeforeNoon ? 'a.m.' : 'p.m.';
+    var normalizedHour = hour <= 12 ? hour : hour % 12;
+    var formattedHour =
+        isBeforeNoon && normalizedHour < 10 ? normalizedHour.toString().padLeft(2, '0') : normalizedHour.toString();
+    var formattedMinute = minute.toString().padLeft(2, '0');
+    return '$formattedHour:$formattedMinute$suffix';
   }
 }
 

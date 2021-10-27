@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
             children: [
               Container(
                 width: 500,
-                child: CurrentPeriodCard(),
+                child: CurrentRoutineCard(),
               ),
               SizedBox(height: 30),
               Container(
@@ -74,42 +74,48 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class CurrentPeriodCard extends StatelessWidget {
-  const CurrentPeriodCard({Key? key}) : super(key: key);
+class CurrentRoutineCard extends StatelessWidget {
+  const CurrentRoutineCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Card(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
-              leading: Icon(Icons.home),
-              // leading: Icon(Icons.school),
-              title: Text('Current routine'),
-            ),
-            Text('Morning tea'),
-            Container(
-              //width: 100,
-              child: BarProgress(
-                percentage: 30.0,
-                color: Colors.black,
-                backColor: Colors.grey,
+    return BlocBuilder<ScheduleBloc, ScheduleState>(
+      builder: (context, state) {
+        var routine = state.currentRoutine;
+        var routineIcon = routine.isSchoolPeriod ? Icons.school : Icons.home;
+        return Center(
+          child: Card(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(routineIcon),
+                  // leading: Icon(Icons.school),
+                  title: const Text('Current routine'),
+                ),
+                Text(routine.name),
+                Container(
+                  //width: 100,
+                  child: BarProgress(
+                    percentage: 30.0,
+                    color: Colors.black,
+                    backColor: Colors.grey,
 //                gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
-                showPercentage: false,
-                // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
-                stroke: 20,
-                round: false,
-              ),
+                    showPercentage: false,
+                    // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
+                    stroke: 20,
+                    round: false,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [Text(routine.start.toString()), Text(routine.end.toString())],
+                )
+              ],
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [Text('8:10 a.m.'), Text('8:50 a.m.')],
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
