@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
+import 'package:school_bell/clock_bloc/clock_bloc.dart';
 import 'package:school_bell/core/time.dart';
 import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
@@ -94,19 +95,34 @@ class CurrentRoutineCard extends StatelessWidget {
                   title: const Text('Current routine'),
                 ),
                 Text(routine.name),
-                BarProgress(
-                  percentage: routine.progressPercentage(DateTime.now()),
-                  color: Colors.black,
-                  backColor: Colors.grey,
+                BlocProvider(
+                  create: (context) =>
+                      ClockBloc(
+                        clockRate: const Duration(
+                          seconds: 5,
+                        ),
+                      ),
+                  child: BlocBuilder<ClockBloc, ClockState>(
+                    builder: (context, state) {
+                      return BarProgress(
+                        percentage: routine.progressPercentage(DateTime.now()),
+                        color: Colors.black,
+                        backColor: Colors.grey,
 //                gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
-                  showPercentage: false,
-                  // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
-                  stroke: 20,
-                  round: false,
+                        showPercentage: false,
+                        // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
+                        stroke: 20,
+                        round: false,
+                      );
+                    },
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [Text(routine.start.toString()), Text(routine.end.toString())],
+                  children: [
+                    Text(routine.start.toString()),
+                    Text(routine.end.toString()),
+                  ],
                 )
               ],
             ),
@@ -159,7 +175,8 @@ class TimerCard extends StatelessWidget {
                   title: Text('Next school bell ringing'),
                 ),
                 BlocProvider(
-                  create: (context) => CountdownBloc(state.nextRinging.dateTime),
+                  create: (context) =>
+                      CountdownBloc(state.nextRinging.dateTime),
                   child: const CountdownDisplay(),
                 ),
               ],

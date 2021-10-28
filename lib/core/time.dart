@@ -37,9 +37,11 @@ extension DateTimeExtension on DateTime {
 }
 
 class Clock {
-  const Clock();
+  final Duration clockRate;
+
+  const Clock({this.clockRate = const Duration(seconds: 1)});
 
   Stream<int> tick() {
-    return Stream.periodic(const Duration(seconds: 1), (x) => x++);
+    return Stream.periodic(clockRate, (x) => x++);
   }
 }
