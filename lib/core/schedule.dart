@@ -70,7 +70,7 @@ abstract class Schedule {
       }
     }
 
-    return SpareTime(
+    return SlackTime(
       start: routineJustBefore.end,
       end: routineJustAfterTime.start,
     );
@@ -492,12 +492,12 @@ class Routine extends Equatable {
   }
 }
 
-class SpareTime extends Routine {
-  const SpareTime({
+class SlackTime extends Routine {
+  const SlackTime({
     required Time start,
     required Time end,
   }) : super(
-          name: 'Spare time',
+          name: 'Slack time',
           start: start,
           end: end,
         );
