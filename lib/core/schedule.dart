@@ -21,7 +21,9 @@ abstract class Schedule {
   List<Routine> get timetable;
 
   List<Routine> get periods {
-    return timetable.where((element) => element.name.toLowerCase().contains('period')).toList();
+    return timetable
+        .where((element) => element.name.toLowerCase().contains('period'))
+        .toList();
   }
 
   static Routine currentRoutine(DateTime currentDateTime) {
@@ -469,6 +471,25 @@ class Routine extends Equatable {
   bool get isSchoolPeriod {
     return name.toLowerCase().contains('period');
   }
+
+  double progressPercentage(DateTime currentDateTime) {
+    var currentTime = Time.fromDateTime(currentDateTime);
+    if (currentTime < start) {
+      throw 'Current time $currentTime must not be before start time $start.';
+    }
+    if (currentTime > end) {
+      throw 'Current time $currentTime must not be after end time $end.';
+    }
+    var startDateTime = start.atDate(currentDateTime.date);
+    var endDateTime = end.atDate(currentDateTime.date);
+
+    var duration = endDateTime.millisecondsSinceEpoch -
+        startDateTime.millisecondsSinceEpoch;
+    var progress = currentDateTime.millisecondsSinceEpoch -
+        startDateTime.millisecondsSinceEpoch;
+
+    return (progress * 100.0) / duration;
+  }
 }
 
 class SpareTime extends Routine {
@@ -547,8 +568,9 @@ class Time extends Equatable {
   String toString() {
     var suffix = isBeforeNoon ? 'a.m.' : 'p.m.';
     var normalizedHour = hour <= 12 ? hour : hour % 12;
-    var formattedHour =
-        isBeforeNoon && normalizedHour < 10 ? normalizedHour.toString().padLeft(2, '0') : normalizedHour.toString();
+    var formattedHour = isBeforeNoon && normalizedHour < 10
+        ? normalizedHour.toString().padLeft(2, '0')
+        : normalizedHour.toString();
     var formattedMinute = minute.toString().padLeft(2, '0');
     return '$formattedHour:$formattedMinute$suffix';
   }

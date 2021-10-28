@@ -159,6 +159,15 @@ void main() {
           .timetable.firstWhere((element) => element.name == 'Morning Tea');
       expect(period.isSchoolPeriod, equals(false));
     });
+
+    test('Should calculate progress percentage', () async {
+      var period = Schedule.forDate(year: 2021, month: 10, day: 28)
+          .timetable.firstWhere((element) => element.name == 'Bath & Change');
+
+      var percentage = period.progressPercentage(DateTime(2021, 10, 28, 6, 50));
+
+      expect(percentage, closeTo(63.64, 0.005));
+    });
   });
 
   // TODO Probably this should be moved into "time_test.dart".

@@ -94,18 +94,15 @@ class CurrentRoutineCard extends StatelessWidget {
                   title: const Text('Current routine'),
                 ),
                 Text(routine.name),
-                Container(
-                  //width: 100,
-                  child: BarProgress(
-                    percentage: 30.0,
-                    color: Colors.black,
-                    backColor: Colors.grey,
+                BarProgress(
+                  percentage: routine.progressPercentage(DateTime.now()),
+                  color: Colors.black,
+                  backColor: Colors.grey,
 //                gradient: LinearGradient(colors: [Colors.blue, Colors.red]),
-                    showPercentage: false,
-                    // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
-                    stroke: 20,
-                    round: false,
-                  ),
+                  showPercentage: false,
+                  // textStyle: TextStyle(color: Colors.orange, fontSize: 70),
+                  stroke: 20,
+                  round: false,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
