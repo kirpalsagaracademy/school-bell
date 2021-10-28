@@ -147,6 +147,20 @@ void main() {
     });
   });
 
+  group('Routine', () {
+    test('Should determine that a routine is a school routine', () async {
+      var period = Schedule.forDate(year: 2021, month: 10, day: 28)
+          .timetable.firstWhere((element) => element.name == '1st period');
+      expect(period.isSchoolPeriod, equals(true));
+    });
+
+    test('Should determine that a routine is not a school routine', () async {
+      var period = Schedule.forDate(year: 2021, month: 10, day: 28)
+          .timetable.firstWhere((element) => element.name == 'Morning Tea');
+      expect(period.isSchoolPeriod, equals(false));
+    });
+  });
+
   // TODO Probably this should be moved into "time_test.dart".
   group('Time comparison', () {
     test('Should determine time before', () {

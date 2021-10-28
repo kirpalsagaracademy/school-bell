@@ -466,7 +466,6 @@ class Routine extends Equatable {
   @override
   List<Object> get props => [name, start, end];
 
-  // TODO Add unit test
   bool get isSchoolPeriod {
     return name.toLowerCase().contains('period');
   }
