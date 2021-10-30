@@ -91,6 +91,6 @@ class Clock {
   const Clock({this.clockRate = const Duration(seconds: 1)});
 
   Stream<int> tick() {
-    return Stream.periodic(clockRate, (x) => x++);
+    return Stream.periodic(clockRate, (counter) => counter++);
   }
 }

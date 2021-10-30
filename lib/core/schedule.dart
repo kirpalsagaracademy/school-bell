@@ -597,6 +597,7 @@ class Date extends Equatable {
   List<Object> get props => [year, month, day];
 }
 
+// TODO Merge with DateTimeExtension in "time.dart".
 extension DateTimeExtension on DateTime {
   Date get date {
     return Date(year: year, month: month, day: day);
