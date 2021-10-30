@@ -91,36 +91,12 @@ abstract class Schedule {
       day: currentDateTime.day,
     );
 
-    if (currentDateTime.isAtWeekend) {
+    if (currentDateTime.isAtWeekend ||
+        currentDateTime.isAfter(
+          endOfLastSchoolPeriodAtDate(schedule, currentDate),
+        )) {
       var futureDateTime = currentDateTime.atNextWorkingDay();
-      var nextWorkingDay = Date(
-        year: futureDateTime.year,
-        month: futureDateTime.month,
-        day: futureDateTime.day,
-      );
-      var futureSchedule = Schedule.forDate(
-        year: nextWorkingDay.year,
-        month: nextWorkingDay.month,
-        day: nextWorkingDay.day,
-      );
-      var firstPeriod = futureSchedule.periods.first;
-      var startFirstPeriodNextWorkingDay = firstPeriod.start.atDate(
-        nextWorkingDay,
-      );
-      return RingingModel(
-        startFirstPeriodNextWorkingDay,
-        firstPeriod,
-      );
-    }
-
-    var endOfLastPeriodToday = schedule.periods.last.end.atDate(currentDate);
-    if (currentDateTime.isAfter(endOfLastPeriodToday)) {
-      var futureDateTime = currentDateTime.atNextWorkingDay();
-      var nextWorkingDay = Date(
-        year: futureDateTime.year,
-        month: futureDateTime.month,
-        day: futureDateTime.day,
-      );
+      var nextWorkingDay = futureDateTime.date;
       var futureSchedule = Schedule.forDate(
         year: nextWorkingDay.year,
         month: nextWorkingDay.month,
@@ -185,6 +161,10 @@ abstract class Schedule {
     }
 
     throw 'Could not find matching time';
+  }
+
+  static DateTime endOfLastSchoolPeriodAtDate(Schedule schedule, Date date) {
+    return schedule.periods.last.end.atDate(date);
   }
 
   static Routine? _findMatchingRoutine(
