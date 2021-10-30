@@ -13,16 +13,16 @@ class CountdownState extends Equatable {
 
   String get hours {
     int _hours = timeLeft.inSeconds ~/ secondsInHour;
-    return _hours.toString().padLeft(2, "0");
+    return _hours.toString().padLeft(2, '0');
   }
 
   String get minutes {
     int _minutes = (timeLeft.inSeconds % secondsInHour) ~/ secondsInMinute;
-    return _minutes.toString().padLeft(2, "0");
+    return _minutes.toString().padLeft(2, '0');
   }
 
   String get seconds {
     int _seconds = (timeLeft.inSeconds % secondsInHour) % secondsInMinute;
-    return _seconds.toString().padLeft(2, "0");
+    return _seconds.toString().padLeft(2, '0');
   }
 }

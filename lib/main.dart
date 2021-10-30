@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
 import 'package:school_bell/clock_bloc/clock_bloc.dart';
-import 'package:school_bell/core/time.dart';
 import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
 
@@ -52,18 +51,18 @@ class HomePage extends StatelessWidget {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+            children: const [
+              SizedBox(
                 width: 500,
                 child: CurrentRoutineCard(),
               ),
               SizedBox(height: 30),
-              Container(
+              SizedBox(
                 width: 500,
                 child: TimerCard(),
               ),
               SizedBox(height: 30),
-              Container(
+              SizedBox(
                 width: 500,
                 child: CurrentTimeCard(),
               ),
@@ -96,12 +95,11 @@ class CurrentRoutineCard extends StatelessWidget {
                 ),
                 Text(routine.name),
                 BlocProvider(
-                  create: (context) =>
-                      ClockBloc(
-                        clockRate: const Duration(
-                          seconds: 5,
-                        ),
-                      ),
+                  create: (context) => ClockBloc(
+                    clockRate: const Duration(
+                      seconds: 5,
+                    ),
+                  ),
                   child: BlocBuilder<ClockBloc, ClockState>(
                     builder: (context, state) {
                       return BarProgress(
@@ -142,8 +140,8 @@ class CurrentTimeCard extends StatelessWidget {
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            const ListTile(
+          children: const <Widget>[
+            ListTile(
               // leading: Icon(Icons.home),
               // leading: Icon(Icons.wb_sunny),
               leading: Icon(Icons.ac_unit),
@@ -164,7 +162,7 @@ class TimerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ScheduleBloc, ScheduleState>(
       builder: (context, state) {
-        print("Building countdown");
+        print('Building countdown');
         return Center(
           child: Card(
             child: Column(
@@ -204,7 +202,7 @@ class CountdownDisplay extends StatelessWidget {
               ],
             ),
             Column(
-              children: [Align(child: Text(':'))],
+              children: const [Align(child: Text(':'))],
             ),
             Column(
               children: [

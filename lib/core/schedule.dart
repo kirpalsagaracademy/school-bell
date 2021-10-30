@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:school_bell/core/time.dart';
 
 /// https://kirpalsagaracademy.com/4010000000143.html
@@ -161,7 +160,7 @@ abstract class Schedule {
       }
     }
 
-    throw "could not find matching time";
+    throw 'could not find matching time';
   }
 
   static Routine? _findMatchingRoutine(
@@ -199,122 +198,122 @@ class SummerSchedule extends Schedule {
   @override
   List<Routine> get timetable => const <Routine>[
         Routine(
-          name: "Lights Off",
+          name: 'Lights Off',
           start: Time(hour: 00, minute: 00),
           end: Time(hour: 5, minute: 25),
         ),
         Routine(
-          name: "Reveille",
+          name: 'Reveille',
           start: Time(hour: 5, minute: 25),
           end: Time(hour: 5, minute: 30),
         ),
         Routine(
-          name: "Morning Tea",
+          name: 'Morning Tea',
           start: Time(hour: 5, minute: 30),
           end: Time(hour: 5, minute: 45),
         ),
         Routine(
-          name: "Physical Training",
+          name: 'Physical Training',
           start: Time(hour: 5, minute: 45),
           end: Time(hour: 6, minute: 10),
         ),
         Routine(
-          name: "Bath & Change",
+          name: 'Bath & Change',
           start: Time(hour: 6, minute: 15),
           end: Time(hour: 7, minute: 10),
         ),
         Routine(
-          name: "Breakfast",
+          name: 'Breakfast',
           start: Time(hour: 7, minute: 25),
           end: Time(hour: 7, minute: 45),
         ),
         Routine(
-          name: "Assembly",
+          name: 'Assembly',
           start: Time(hour: 7, minute: 55),
           end: Time(hour: 8, minute: 10),
         ),
         Routine(
-          name: "1st period",
+          name: '1st period',
           start: Time(hour: 8, minute: 10),
           end: Time(hour: 8, minute: 50),
         ),
         Routine(
-          name: "2nd period",
+          name: '2nd period',
           start: Time(hour: 8, minute: 50),
           end: Time(hour: 9, minute: 30),
         ),
         Routine(
-          name: "3rd period",
+          name: '3rd period',
           start: Time(hour: 9, minute: 30),
           end: Time(hour: 10, minute: 10),
         ),
         Routine(
-          name: "4th period",
+          name: '4th period',
           start: Time(hour: 10, minute: 10),
           end: Time(hour: 10, minute: 50),
         ),
         Routine(
-          name: "Milk break",
+          name: 'Milk break',
           start: Time(hour: 10, minute: 50),
           end: Time(hour: 11, minute: 10),
         ),
         Routine(
-          name: "5th period",
+          name: '5th period',
           start: Time(hour: 11, minute: 10),
           end: Time(hour: 11, minute: 50),
         ),
         Routine(
-          name: "6th period",
+          name: '6th period',
           start: Time(hour: 11, minute: 50),
           end: Time(hour: 12, minute: 25),
         ),
         Routine(
-          name: "7th period",
+          name: '7th period',
           start: Time(hour: 12, minute: 25),
           end: Time(hour: 13, minute: 00),
         ),
         Routine(
-          name: "8th period",
+          name: '8th period',
           start: Time(hour: 13, minute: 00),
           end: Time(hour: 13, minute: 35),
         ),
         Routine(
-          name: "Lunch",
+          name: 'Lunch',
           start: Time(hour: 13, minute: 40),
           end: Time(hour: 14, minute: 00),
         ),
         Routine(
-          name: "Rest / Washing",
+          name: 'Rest / Washing',
           start: Time(hour: 14, minute: 00),
           end: Time(hour: 15, minute: 20),
         ),
         Routine(
-          name: "Evening tea",
+          name: 'Evening tea',
           start: Time(hour: 15, minute: 20),
           end: Time(hour: 15, minute: 45),
         ),
         Routine(
-          name: "Evening Prep",
+          name: 'Evening Prep',
           start: Time(hour: 16, minute: 00),
           end: Time(hour: 17, minute: 30),
         ),
         Routine(
-          name: "Games",
+          name: 'Games',
           start: Time(hour: 17, minute: 35),
           end: Time(hour: 18, minute: 40),
         ),
         Routine(
-          name: "Dinner",
+          name: 'Dinner',
           start: Time(hour: 19, minute: 30),
           end: Time(hour: 19, minute: 55),
         ),
         Routine(
-          name: "Night Prep.",
+          name: 'Night Prep.',
           start: Time(hour: 20, minute: 15),
           end: Time(hour: 21, minute: 15),
         ),
         Routine(
-          name: "Lights Off",
+          name: 'Lights Off',
           start: Time(hour: 21, minute: 30),
           end: Time(hour: 24, minute: 00),
         ),
@@ -327,127 +326,127 @@ class WinterSchedule extends Schedule {
   @override
   List<Routine> get timetable => const <Routine>[
         Routine(
-          name: "Lights Off",
+          name: 'Lights Off',
           start: Time(hour: 00, minute: 00),
           end: Time(hour: 5, minute: 45),
         ),
         Routine(
-          name: "Reveille",
+          name: 'Reveille',
           start: Time(hour: 5, minute: 45),
           end: Time(hour: 6, minute: 00),
         ),
         Routine(
-          name: "Morning Tea",
+          name: 'Morning Tea',
           start: Time(hour: 6, minute: 00),
           end: Time(hour: 6, minute: 10),
         ),
         Routine(
-          name: "Physical Training",
+          name: 'Physical Training',
           start: Time(hour: 6, minute: 10),
           end: Time(hour: 6, minute: 35),
         ),
         Routine(
-          name: "Bath & Change",
+          name: 'Bath & Change',
           start: Time(hour: 6, minute: 40),
           end: Time(hour: 7, minute: 35),
         ),
         Routine(
-          name: "Breakfast",
+          name: 'Breakfast',
           start: Time(hour: 7, minute: 50),
           end: Time(hour: 8, minute: 10),
         ),
         Routine(
-          name: "Assembly",
+          name: 'Assembly',
           start: Time(hour: 8, minute: 15),
           end: Time(hour: 8, minute: 30),
         ),
         Routine(
-          name: "1st period",
+          name: '1st period',
           start: Time(hour: 8, minute: 30),
           end: Time(hour: 9, minute: 10),
         ),
         Routine(
-          name: "2nd period",
+          name: '2nd period',
           start: Time(hour: 9, minute: 10),
           end: Time(hour: 9, minute: 50),
         ),
         Routine(
-          name: "3rd period",
+          name: '3rd period',
           start: Time(hour: 9, minute: 50),
           end: Time(hour: 10, minute: 30),
         ),
         Routine(
-          name: "4th period",
+          name: '4th period',
           start: Time(hour: 10, minute: 30),
           end: Time(hour: 11, minute: 10),
         ),
         Routine(
-          name: "Milk break",
+          name: 'Milk break',
           start: Time(hour: 10, minute: 50),
           end: Time(hour: 11, minute: 11),
         ),
         Routine(
-          name: "5th period",
+          name: '5th period',
           start: Time(hour: 11, minute: 10),
           end: Time(hour: 11, minute: 30),
         ),
         Routine(
-          name: "6th period",
+          name: '6th period',
           start: Time(hour: 11, minute: 30),
           end: Time(hour: 12, minute: 10),
         ),
         Routine(
-          name: "7th period",
+          name: '7th period',
           start: Time(hour: 12, minute: 10),
           end: Time(hour: 13, minute: 25),
         ),
         Routine(
-          name: "8th period",
+          name: '8th period',
           start: Time(hour: 13, minute: 25),
           end: Time(hour: 14, minute: 00),
         ),
         Routine(
-          name: "Lunch",
+          name: 'Lunch',
           start: Time(hour: 14, minute: 00),
           end: Time(hour: 14, minute: 30),
         ),
         Routine(
-          name: "Rest / Washing",
+          name: 'Rest / Washing',
           start: Time(hour: 14, minute: 30),
           end: Time(hour: 15, minute: 00),
         ),
         Routine(
-          name: "Evening tea",
+          name: 'Evening tea',
           start: Time(hour: 15, minute: 00),
           end: Time(hour: 15, minute: 20),
         ),
         Routine(
-          name: "Evening Prep (1st)",
+          name: 'Evening Prep (1st)',
           start: Time(hour: 15, minute: 40),
           end: Time(hour: 16, minute: 25),
         ),
         Routine(
-          name: "Evening Prep (2nd)",
+          name: 'Evening Prep (2nd)',
           start: Time(hour: 16, minute: 25),
           end: Time(hour: 17, minute: 10),
         ),
         Routine(
-          name: "Games/Remedial",
+          name: 'Games/Remedial',
           start: Time(hour: 17, minute: 15),
           end: Time(hour: 18, minute: 15),
         ),
         Routine(
-          name: "Dinner",
+          name: 'Dinner',
           start: Time(hour: 19, minute: 25),
           end: Time(hour: 19, minute: 50),
         ),
         Routine(
-          name: "Night Prep.",
+          name: 'Night Prep.',
           start: Time(hour: 20, minute: 15),
           end: Time(hour: 21, minute: 15),
         ),
         Routine(
-          name: "Lights Off",
+          name: 'Lights Off',
           start: Time(hour: 22, minute: 00),
           end: Time(hour: 24, minute: 00),
         ),

@@ -2,13 +2,10 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:school_bell/bell_bloc/bell_bloc.dart';
 import 'package:school_bell/core/schedule.dart';
 import 'package:school_bell/core/time.dart';
-import 'package:uuid/uuid.dart';
 
 part 'schedule_event.dart';
-
 part 'schedule_state.dart';
 
 class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
