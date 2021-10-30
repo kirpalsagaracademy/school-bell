@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
 import 'package:school_bell/clock_bloc/clock_bloc.dart';
+import 'package:school_bell/core/time.dart';
 import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
 
@@ -140,14 +141,23 @@ class CurrentTimeCard extends StatelessWidget {
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const <Widget>[
-            ListTile(
+          children: <Widget>[
+            const ListTile(
               // leading: Icon(Icons.home),
               // leading: Icon(Icons.wb_sunny),
               leading: Icon(Icons.ac_unit),
               title: Text('Current time'),
             ),
-            Text('Wednesday, 12-10-2021, 8:40 p.m.'),
+            BlocProvider(
+              create: (context) => ClockBloc(
+                clockRate: const Duration(seconds: 10),
+              ),
+              child: BlocBuilder<ClockBloc, ClockState>(
+                builder: (context, state) {
+                  return Text(DateTime.now().toFormattedString());
+                },
+              ),
+            ),
           ],
         ),
       ),

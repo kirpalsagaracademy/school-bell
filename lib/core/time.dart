@@ -1,3 +1,5 @@
+import 'package:school_bell/core/schedule.dart';
+
 const secondsInHour = 3600;
 const secondsInMinute = 60;
 
@@ -45,6 +47,41 @@ extension DateTimeExtension on DateTime {
     }
 
     return false;
+  }
+
+  String toFormattedString() {
+    late String formattedDayOfWeek;
+    switch(weekday) {
+      case DateTime.monday:
+        formattedDayOfWeek = 'Monday';
+        break;
+      case DateTime.tuesday:
+        formattedDayOfWeek = 'Tuesday';
+        break;
+      case DateTime.wednesday:
+        formattedDayOfWeek = 'Wednesday';
+        break;
+      case DateTime.thursday:
+        formattedDayOfWeek = 'Thursday';
+        break;
+      case DateTime.friday:
+        formattedDayOfWeek = 'Friday';
+        break;
+      case DateTime.saturday:
+        formattedDayOfWeek = 'Saturday';
+        break;
+      case DateTime.sunday:
+        formattedDayOfWeek = 'Sunday';
+        break;
+    }
+
+    var formattedMonth = month.toString().padLeft(2, '0');
+    var formattedDay = day.toString().padLeft(2, '0');
+    var formattedDate = '$formattedDay-$formattedMonth-$year';
+
+    var formattedTime = Time(hour: hour, minute: minute).toString();
+
+    return '$formattedDayOfWeek, $formattedDate, $formattedTime';
   }
 }
 
