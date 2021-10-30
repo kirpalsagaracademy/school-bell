@@ -34,6 +34,18 @@ extension DateTimeExtension on DateTime {
     }
     return add(Duration(days: offset));
   }
+
+  bool get isAtWeekend {
+    if (weekday == DateTime.saturday) {
+      return true;
+    }
+
+    if (weekday == DateTime.sunday) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 class Clock {

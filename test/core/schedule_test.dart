@@ -145,6 +145,18 @@ void main() {
       expect(ringing.routine.start, equals(const Time(hour: 8, minute: 10)));
       expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
+
+    test('Should calculate at start of first period at day after weekend', () async {
+      var time = const Time(hour: 6, minute: 24);
+      var date = const Date(year: 2021, month: 10, day: 23);
+
+      var ringing = Schedule.nextRinging(time.atDate(date));
+
+      expect(ringing.dateTime.day, equals(25));
+      expect(ringing.routine.name, equals('1st period'));
+      expect(ringing.routine.start, equals(const Time(hour: 8, minute: 10)));
+      expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
+    });
   });
 
   group('Routine', () {

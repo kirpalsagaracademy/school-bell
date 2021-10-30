@@ -91,6 +91,23 @@ abstract class Schedule {
       day: currentDateTime.day,
     );
 
+    if (currentDateTime.isAtWeekend) {
+      var futureDateTime = currentDateTime.atNextWorkingDay();
+      var nextWorkingDay = Date(
+        year: futureDateTime.year,
+        month: futureDateTime.month,
+        day: futureDateTime.day,
+      );
+      var firstPeriod = schedule.periods.first;
+      var startFirstPeriodNextWorkingDay = firstPeriod.start.atDate(
+        nextWorkingDay,
+      );
+      return RingingModel(
+        startFirstPeriodNextWorkingDay,
+        firstPeriod,
+      );
+    }
+
     var endOfLastPeriodToday = schedule.periods.last.end.atDate(currentDate);
     if (currentDateTime.isAfter(endOfLastPeriodToday)) {
       var futureDateTime = currentDateTime.atNextWorkingDay();

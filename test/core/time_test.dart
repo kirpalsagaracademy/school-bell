@@ -61,6 +61,12 @@ void main() {
       expect(result.month, equals(10));
       expect(result.day, equals(25));
     });
+
+    test('Should determine if the current date time at a weekend', () async {
+      expect(DateTime(2021, 10, 30).isAtWeekend, equals(true));
+      expect(DateTime(2021, 10, 31).isAtWeekend, equals(true));
+      expect(DateTime(2021, 11, 01).isAtWeekend, equals(false));
+    });
   });
 
   group('Time formatting', () {
