@@ -98,7 +98,12 @@ abstract class Schedule {
         month: futureDateTime.month,
         day: futureDateTime.day,
       );
-      var firstPeriod = schedule.periods.first;
+      var futureSchedule = Schedule.forDate(
+        year: nextWorkingDay.year,
+        month: nextWorkingDay.month,
+        day: nextWorkingDay.day,
+      );
+      var firstPeriod = futureSchedule.periods.first;
       var startFirstPeriodNextWorkingDay = firstPeriod.start.atDate(
         nextWorkingDay,
       );
@@ -111,15 +116,17 @@ abstract class Schedule {
     var endOfLastPeriodToday = schedule.periods.last.end.atDate(currentDate);
     if (currentDateTime.isAfter(endOfLastPeriodToday)) {
       var futureDateTime = currentDateTime.atNextWorkingDay();
-      // TODO Instead of shifting the current date/time to the next working day
-      //  there should be a property providing access on the next working day
-      //  as date.
       var nextWorkingDay = Date(
         year: futureDateTime.year,
         month: futureDateTime.month,
         day: futureDateTime.day,
       );
-      var firstPeriod = schedule.periods.first;
+      var futureSchedule = Schedule.forDate(
+        year: nextWorkingDay.year,
+        month: nextWorkingDay.month,
+        day: nextWorkingDay.day,
+      );
+      var firstPeriod = futureSchedule.periods.first;
       var startFirstPeriodNextWorkingDay = firstPeriod.start.atDate(
         nextWorkingDay,
       );
@@ -177,7 +184,7 @@ abstract class Schedule {
       }
     }
 
-    throw 'could not find matching time';
+    throw 'Could not find matching time';
   }
 
   static Routine? _findMatchingRoutine(

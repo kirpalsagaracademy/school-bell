@@ -33,7 +33,7 @@ void main() {
 
       var currentRoutine = Schedule.currentRoutine(time.atDate(date));
 
-      expect(currentRoutine.name, equals('Spare time'));
+      expect(currentRoutine.name, equals('Slack time'));
       expect(currentRoutine.start, equals(const Time(hour: 19, minute: 55)));
       expect(currentRoutine.end, equals(const Time(hour: 20, minute: 15)));
     });
@@ -118,9 +118,7 @@ void main() {
       expect(ringing.dateTime.minute, equals(50));
     });
 
-    test('Should ring at start of school routine after break', () {
-
-    });
+    test('Should ring at start of school routine after break', () {});
 
     test('Should ring at start of first period of next day', () {
       var time = const Time(hour: 19, minute: 52);
@@ -146,7 +144,8 @@ void main() {
       expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
 
-    test('Should calculate at start of first period at day after weekend', () async {
+    test('Should calculate at start of first period at day after weekend',
+        () async {
       var time = const Time(hour: 6, minute: 24);
       var date = const Date(year: 2021, month: 10, day: 23);
 
@@ -157,24 +156,40 @@ void main() {
       expect(ringing.routine.start, equals(const Time(hour: 8, minute: 10)));
       expect(ringing.routine.end, equals(const Time(hour: 8, minute: 50)));
     });
+
+    test(
+        'Should calculate at start of first period at day after weekend using '
+        'different schedule', () async {
+      var time = const Time(hour: 6, minute: 24);
+      var date = const Date(year: 2021, month: 10, day: 30);
+
+      var ringing = Schedule.nextRinging(time.atDate(date));
+
+      expect(ringing.dateTime.day, equals(1));
+      expect(ringing.routine.name, equals('1st period'));
+      expect(ringing.routine.start, equals(const Time(hour: 8, minute: 30)));
+    });
   });
 
   group('Routine', () {
     test('Should determine that a routine is a school routine', () async {
       var period = Schedule.forDate(year: 2021, month: 10, day: 28)
-          .timetable.firstWhere((element) => element.name == '1st period');
+          .timetable
+          .firstWhere((element) => element.name == '1st period');
       expect(period.isSchoolPeriod, equals(true));
     });
 
     test('Should determine that a routine is not a school routine', () async {
       var period = Schedule.forDate(year: 2021, month: 10, day: 28)
-          .timetable.firstWhere((element) => element.name == 'Morning Tea');
+          .timetable
+          .firstWhere((element) => element.name == 'Morning Tea');
       expect(period.isSchoolPeriod, equals(false));
     });
 
     test('Should calculate progress percentage', () async {
       var period = Schedule.forDate(year: 2021, month: 10, day: 28)
-          .timetable.firstWhere((element) => element.name == 'Bath & Change');
+          .timetable
+          .firstWhere((element) => element.name == 'Bath & Change');
 
       var percentage = period.progressPercentage(DateTime(2021, 10, 28, 6, 50));
 
