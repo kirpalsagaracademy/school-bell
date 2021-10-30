@@ -145,7 +145,7 @@ class CurrentTimeCard extends StatelessWidget {
             const ListTile(
               // leading: Icon(Icons.home),
               // leading: Icon(Icons.wb_sunny),
-              leading: Icon(Icons.ac_unit),
+              // leading: Icon(Icons.ac_unit),
               title: Text('Current time'),
             ),
             BlocProvider(
