@@ -93,7 +93,7 @@ abstract class Schedule {
 
     if (currentDateTime.isAtWeekend ||
         currentDateTime.isAfter(
-          endOfLastSchoolPeriodAtDate(schedule, currentDate),
+          _endOfLastSchoolPeriodAtDate(schedule, currentDate),
         )) {
       var futureDateTime = currentDateTime.atNextWorkingDay();
       var nextWorkingDay = futureDateTime.date;
@@ -163,7 +163,7 @@ abstract class Schedule {
     throw 'Could not find matching time';
   }
 
-  static DateTime endOfLastSchoolPeriodAtDate(Schedule schedule, Date date) {
+  static DateTime _endOfLastSchoolPeriodAtDate(Schedule schedule, Date date) {
     return schedule.periods.last.end.atDate(date);
   }
 
@@ -569,6 +569,13 @@ class Time extends Equatable {
 
   @override
   String toString() {
+    if (hour == 0 && minute == 0) {
+      return '0:00 midnight';
+    }
+    if (hour == 24) {
+      return '12:00 midnight';
+    }
+
     var suffix = isBeforeNoon ? 'a.m.' : 'p.m.';
     var normalizedHour = hour <= 12 ? hour : hour % 12;
     var formattedHour = isBeforeNoon && normalizedHour < 10

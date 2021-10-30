@@ -85,5 +85,15 @@ void main() {
       expect(time.toString(), equals('7:30p.m.'));
     });
 
+    test('Display midnight day start', () async {
+      var time = const Time(hour: 00, minute: 00);
+      expect(time.toString(), equals('0:00 midnight'));
+    });
+
+    test('Display midnight day end', () async {
+      var time = const Time(hour: 24, minute: 00);
+      expect(time.toString(), equals('12:00 midnight'));
+    });
+
   });
 }
