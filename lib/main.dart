@@ -203,30 +203,41 @@ class CountdownDisplay extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<CountdownBloc, CountdownState>(
       builder: (context, state) {
+        const digitStyle = TextStyle(fontSize: 50);
         return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
               children: [
-                Text(state.hours),
-                const Text('hours'),
+                Text(state.hours, style: digitStyle),
+                const Align(
+                  child: Text('hours'),
+                  alignment: Alignment.topRight,
+                ),
               ],
             ),
             Column(
-              children: const [Align(child: Text(':'))],
+              children: const [
+                Text(':', style: digitStyle),
+                Text(''),
+              ],
             ),
             Column(
               children: [
-                Text(state.minutes),
+                Text(state.minutes, style: digitStyle),
                 const Text('minutes'),
               ],
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: const [Text(':')],
+              children: const [
+                Text(':', style: digitStyle),
+                Text(''),
+              ],
             ),
             Column(
               children: [
-                Text(state.seconds),
+                Text(state.seconds, style: digitStyle),
                 const Text('seconds'),
               ],
             ),
