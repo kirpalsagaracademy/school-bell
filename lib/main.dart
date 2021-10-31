@@ -208,6 +208,7 @@ class CountdownDisplay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(state.hours, style: digitStyle),
                 const Align(
@@ -223,19 +224,20 @@ class CountdownDisplay extends StatelessWidget {
               ],
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(state.minutes, style: digitStyle),
                 const Text('minutes'),
               ],
             ),
             Column(
-              mainAxisAlignment: MainAxisAlignment.start,
               children: const [
                 Text(':', style: digitStyle),
                 Text(''),
               ],
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(state.seconds, style: digitStyle),
                 const Text('seconds'),
