@@ -53,20 +53,20 @@ class HomePage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-              SizedBox(
-                width: 500,
-                child: CurrentRoutineCard(),
-              ),
-              SizedBox(height: 30),
+              // SizedBox(
+              //   width: 500,
+              //   child: CurrentRoutineCard(),
+              // ),
+              // SizedBox(height: 30),
               SizedBox(
                 width: 500,
                 child: TimerCard(),
               ),
-              SizedBox(height: 30),
-              SizedBox(
-                width: 500,
-                child: CurrentTimeCard(),
-              ),
+              // SizedBox(height: 30),
+              // SizedBox(
+              //   width: 500,
+              //   child: CurrentTimeCard(),
+              // ),
             ],
           ),
         ),
@@ -178,15 +178,16 @@ class TimerCard extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                const ListTile(
-                  leading: Icon(Icons.alarm),
-                  title: Text('Next school bell ringing'),
+                ListTile(
+                  leading: const Icon(Icons.alarm),
+                  title: Text('Next school bell ringing: ${state.nextRinging.routine.name}'),
                 ),
                 BlocProvider(
                   create: (context) =>
                       CountdownBloc(state.nextRinging.dateTime),
                   child: const CountdownDisplay(),
                 ),
+                Text(state.nextRinging.dateTime.toFormattedString()),
               ],
             ),
           ),
