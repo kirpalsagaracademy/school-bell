@@ -204,13 +204,20 @@ class CountdownDisplay extends StatelessWidget {
     return BlocBuilder<CountdownBloc, CountdownState>(
       builder: (context, state) {
         const digitStyle = TextStyle(fontSize: 50);
+        const digitBoxWidth = 50 + 15.0;
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(state.hours, style: digitStyle),
+                SizedBox(
+                  width: digitBoxWidth,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(state.hours, style: digitStyle),
+                  ),
+                ),
                 const Align(
                   child: Text('hours'),
                   alignment: Alignment.topRight,
@@ -224,9 +231,15 @@ class CountdownDisplay extends StatelessWidget {
               ],
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(state.minutes, style: digitStyle),
+                SizedBox(
+                  width: digitBoxWidth,
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Text(state.minutes, style: digitStyle),
+                  ),
+                ),
                 const Text('minutes'),
               ],
             ),
@@ -237,9 +250,12 @@ class CountdownDisplay extends StatelessWidget {
               ],
             ),
             Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(state.seconds, style: digitStyle),
+                SizedBox(
+                  width: digitBoxWidth,
+                  child: Text(state.seconds, style: digitStyle),
+                ),
                 const Text('seconds'),
               ],
             ),
