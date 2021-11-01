@@ -604,9 +604,12 @@ extension DateTimeExtension on DateTime {
   }
 }
 
-class RingingModel {
+class RingingModel extends Equatable {
   final DateTime dateTime;
   final Routine routine;
 
-  RingingModel(this.dateTime, this.routine);
+  const RingingModel(this.dateTime, this.routine);
+
+  @override
+  List<Object> get props => [dateTime, routine];
 }

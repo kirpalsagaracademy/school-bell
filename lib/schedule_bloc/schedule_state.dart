@@ -10,5 +10,5 @@ class ScheduleState extends Equatable {
   });
 
   @override
-  List<Object> get props => [currentRoutine];
+  List<Object> get props => [currentRoutine, nextRinging];
 }

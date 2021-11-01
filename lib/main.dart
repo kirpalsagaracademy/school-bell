@@ -22,16 +22,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<ScheduleBloc>(
-            create: (BuildContext context) => ScheduleBloc(),
-          ),
-          BlocProvider<BellBloc>(
-            create: (BuildContext context) => BellBloc(),
-          ),
-        ],
-        child: const HomePage(),
+      home: BlocProvider(
+        create: (context) => BellBloc(),
+        child: BlocProvider(
+          create: (context) => ScheduleBloc(bellBloc: context.read<BellBloc>()),
+          child: const HomePage(),
+        ),
       ),
       debugShowCheckedModeBanner: false,
     );
@@ -43,31 +39,45 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bellBloc = context.read<BellBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('Kirpal Sagar Academy - School Bell'),
       ),
-      body: Container(
-        color: Colors.grey[300],
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
-              // SizedBox(
-              //   width: 500,
-              //   child: CurrentRoutineCard(),
-              // ),
-              // SizedBox(height: 30),
-              SizedBox(
-                width: 500,
-                child: TimerCard(),
+      body: BlocListener<BellBloc, BellState>(
+        bloc: bellBloc,
+        listener: (context, state) {
+          if (state is BellRinging) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                backgroundColor: Colors.green,
+                content: Text('Ring - ring - ring'),
               ),
-              // SizedBox(height: 30),
-              // SizedBox(
-              //   width: 500,
-              //   child: CurrentTimeCard(),
-              // ),
-            ],
+            );
+          }
+        },
+        child: Container(
+          color: Colors.grey[300],
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                // SizedBox(
+                //   width: 500,
+                //   child: CurrentRoutineCard(),
+                // ),
+                // SizedBox(height: 30),
+                SizedBox(
+                  width: 500,
+                  child: TimerCard(),
+                ),
+                // SizedBox(height: 30),
+                // SizedBox(
+                //   width: 500,
+                //   child: CurrentTimeCard(),
+                // ),
+              ],
+            ),
           ),
         ),
       ),
@@ -96,11 +106,12 @@ class CurrentRoutineCard extends StatelessWidget {
                 ),
                 Text(routine.name),
                 BlocProvider(
-                  create: (context) => ClockBloc(
-                    clockRate: const Duration(
-                      seconds: 5,
-                    ),
-                  ),
+                  create: (context) =>
+                      ClockBloc(
+                        clockRate: const Duration(
+                          seconds: 5,
+                        ),
+                      ),
                   child: BlocBuilder<ClockBloc, ClockState>(
                     builder: (context, state) {
                       return BarProgress(
@@ -149,9 +160,10 @@ class CurrentTimeCard extends StatelessWidget {
               title: Text('Current time'),
             ),
             BlocProvider(
-              create: (context) => ClockBloc(
-                clockRate: const Duration(seconds: 10),
-              ),
+              create: (context) =>
+                  ClockBloc(
+                    clockRate: const Duration(seconds: 10),
+                  ),
               child: BlocBuilder<ClockBloc, ClockState>(
                 builder: (context, state) {
                   return Text(DateTime.now().toFormattedString());
@@ -180,7 +192,9 @@ class TimerCard extends StatelessWidget {
               children: <Widget>[
                 ListTile(
                   leading: const Icon(Icons.alarm),
-                  title: Text('Next school bell ringing: ${state.nextRinging.routine.name}'),
+                  title: Text(
+                      'Next school bell ringing: ${state.nextRinging.routine
+                          .name}'),
                 ),
                 BlocProvider(
                   create: (context) =>
