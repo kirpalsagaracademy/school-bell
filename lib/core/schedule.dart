@@ -365,6 +365,11 @@ class WinterSchedule extends Schedule {
           end: Time(hour: 8, minute: 30),
         ),
         Routine(
+          name: '0th period', // only for testing
+          start: Time(hour: 7, minute: 25),
+          end: Time(hour: 8, minute: 10),
+        ),
+        Routine(
           name: '1st period',
           start: Time(hour: 8, minute: 30),
           end: Time(hour: 9, minute: 10),

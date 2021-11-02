@@ -9,6 +9,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  audioplayers: ^0.20.1
   equatable: ^2.0.3
   flutter:
     sdk: flutter
@@ -24,4 +25,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
+  assets:
+    - assets/school_bell_sound.mp3
