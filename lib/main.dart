@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:progress_indicator/progress_indicator.dart';
@@ -7,6 +8,9 @@ import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
 
 import 'bell_bloc/bell_bloc.dart';
+
+const schoolBellSoundUrl = 'https://kirpalsagaracademy.github.io/school-bell/'
+    'assets/assets/school_bell_sound.mp3';
 
 void main() {
   runApp(const MyApp());
@@ -39,6 +43,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () => _showMyDialog(context));
     final bellBloc = context.read<BellBloc>();
     return Scaffold(
       appBar: AppBar(
@@ -48,6 +53,9 @@ class HomePage extends StatelessWidget {
         bloc: bellBloc,
         listener: (context, state) {
           if (state is BellRinging) {
+            AudioPlayer audioPlayer = AudioPlayer();
+            audioPlayer.play(schoolBellSoundUrl);
+
             Scaffold.of(context).showSnackBar(
               SnackBar(
                 backgroundColor: Colors.green,
@@ -81,6 +89,34 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('AlertDialog Title'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: const <Widget>[
+                Text('This is a demo alert dialog.'),
+                Text('Would you like to approve of this message?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
