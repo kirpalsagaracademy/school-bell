@@ -6,6 +6,7 @@ import 'package:school_bell/clock_bloc/clock_bloc.dart';
 import 'package:school_bell/core/time.dart';
 import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
 import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
+import 'package:platform_detect/platform_detect.dart';
 
 import 'bell_bloc/bell_bloc.dart';
 
@@ -43,7 +44,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future.delayed(Duration.zero, () => _showMyDialog(context));
+    if (browser.isChrome) {
+      Future.delayed(Duration.zero, () => _showAudioPermissionDialog(context));
+    }
     final bellBloc = context.read<BellBloc>();
     return Scaffold(
       appBar: AppBar(
@@ -51,17 +54,11 @@ class HomePage extends StatelessWidget {
       ),
       body: BlocListener<BellBloc, BellState>(
         bloc: bellBloc,
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is BellRinging) {
             AudioPlayer audioPlayer = AudioPlayer();
-            audioPlayer.play(schoolBellSoundUrl);
-
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: Colors.green,
-                content: Text('Ring - ring - ring'),
-              ),
-            );
+            await audioPlayer.play(schoolBellSoundUrl);
+            bellBloc.add(BellMuted());
           }
         },
         child: Container(
@@ -92,24 +89,30 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> _showMyDialog(BuildContext context) async {
+  Future<void> _showAudioPermissionDialog(BuildContext context) async {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('AlertDialog Title'),
+          title: const Text('Information for Chrome users'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: const <Widget>[
-                Text('This is a demo alert dialog.'),
-                Text('Would you like to approve of this message?'),
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: BoxConstraints.loose(const Size(500, 500)),
+                  child: const Text(
+                    'This app will automatically play a school bell '
+                    'sound at the start and end of each school period in the '
+                    'Kirpal Sagar Academy.',
+                  ),
+                ),
               ],
             ),
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -142,12 +145,11 @@ class CurrentRoutineCard extends StatelessWidget {
                 ),
                 Text(routine.name),
                 BlocProvider(
-                  create: (context) =>
-                      ClockBloc(
-                        clockRate: const Duration(
-                          seconds: 5,
-                        ),
-                      ),
+                  create: (context) => ClockBloc(
+                    clockRate: const Duration(
+                      seconds: 5,
+                    ),
+                  ),
                   child: BlocBuilder<ClockBloc, ClockState>(
                     builder: (context, state) {
                       return BarProgress(
@@ -196,10 +198,9 @@ class CurrentTimeCard extends StatelessWidget {
               title: Text('Current time'),
             ),
             BlocProvider(
-              create: (context) =>
-                  ClockBloc(
-                    clockRate: const Duration(seconds: 10),
-                  ),
+              create: (context) => ClockBloc(
+                clockRate: const Duration(seconds: 10),
+              ),
               child: BlocBuilder<ClockBloc, ClockState>(
                 builder: (context, state) {
                   return Text(DateTime.now().toFormattedString());
@@ -229,12 +230,14 @@ class TimerCard extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.alarm),
                   title: Text(
-                      'Next school bell ringing: ${state.nextRinging.routine
-                          .name}'),
+                    'Next school bell ringing: ${state.nextRinging.routine.name}',
+                  ),
                 ),
                 BlocProvider(
-                  create: (context) =>
-                      CountdownBloc(state.nextRinging.dateTime),
+                  key: ValueKey(state),
+                  create: (context) {
+                    return CountdownBloc(state.nextRinging.dateTime);
+                  },
                   child: const CountdownDisplay(),
                 ),
                 Text(state.nextRinging.dateTime.toFormattedString()),
