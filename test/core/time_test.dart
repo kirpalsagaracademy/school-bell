@@ -1,4 +1,4 @@
-import 'package:school_bell/schedule/schedule.dart';
+import 'package:school_bell/schedule/schedule_model.dart';
 import 'package:school_bell/time.dart';
 import 'package:test/test.dart';
 
