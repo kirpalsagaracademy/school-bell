@@ -3,11 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_detect/platform_detect.dart';
 import 'package:school_bell/bell/bell_bloc/bell_bloc.dart';
+import 'package:school_bell/bell/bell_listener.dart';
 import 'package:school_bell/countdown/timer_card.dart';
 import 'package:school_bell/schedule/schedule_bloc/schedule_bloc.dart';
-
-const schoolBellSoundUrl = 'https://kirpalsagaracademy.github.io/school-bell/'
-    'assets/assets/school_bell_sound.mp3';
 
 class SchoolBellApp extends StatelessWidget {
   const SchoolBellApp({Key? key}) : super(key: key);
@@ -39,20 +37,11 @@ class HomePage extends StatelessWidget {
     if (browser.isChrome) {
       Future.delayed(Duration.zero, () => _showAudioPermissionDialog(context));
     }
-    final bellBloc = context.read<BellBloc>();
     return Scaffold(
       appBar: AppBar(
         title: const Text('KSA School Bell'),
       ),
-      body: BlocListener<BellBloc, BellState>(
-        bloc: bellBloc,
-        listener: (context, state) async {
-          if (state is BellRinging) {
-            AudioPlayer audioPlayer = AudioPlayer();
-            await audioPlayer.play(schoolBellSoundUrl);
-            bellBloc.add(BellMuted());
-          }
-        },
+      body: BellListener(
         child: Container(
           color: Colors.grey[300],
           child: Center(
