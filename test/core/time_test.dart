@@ -1,5 +1,5 @@
-import 'package:school_bell/core/schedule.dart';
-import 'package:school_bell/core/time.dart';
+import 'package:school_bell/schedule/schedule.dart';
+import 'package:school_bell/time.dart';
 import 'package:test/test.dart';
 
 void main() {

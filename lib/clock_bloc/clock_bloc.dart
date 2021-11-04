@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:school_bell/core/time.dart';
+import 'package:school_bell/time.dart';
 
 part 'clock_event.dart';
 

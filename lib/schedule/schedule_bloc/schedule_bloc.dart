@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:school_bell/bell_bloc/bell_bloc.dart';
-import 'package:school_bell/core/schedule.dart';
-import 'package:school_bell/core/time.dart';
+import 'package:school_bell/bell/bell_bloc/bell_bloc.dart';
+import 'package:school_bell/schedule/schedule.dart';
+import 'package:school_bell/time.dart';
 
 part 'schedule_event.dart';
 

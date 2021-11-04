@@ -2,11 +2,11 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_detect/platform_detect.dart';
-import 'package:school_bell/core/time.dart';
-import 'package:school_bell/countdown_bloc/countdown_bloc.dart';
-import 'package:school_bell/schedule_bloc/schedule_bloc.dart';
+import 'package:school_bell/time.dart';
 
-import 'bell_bloc/bell_bloc.dart';
+import 'bell/bell_bloc/bell_bloc.dart';
+import 'countdown/countdown_bloc/countdown_bloc.dart';
+import 'schedule/schedule_bloc/schedule_bloc.dart';
 
 const schoolBellSoundUrl = 'https://kirpalsagaracademy.github.io/school-bell/'
     'assets/assets/school_bell_sound.mp3';

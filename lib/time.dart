@@ -1,4 +1,4 @@
-import 'package:school_bell/core/schedule.dart';
+import 'package:school_bell/schedule/schedule.dart';
 
 const secondsInHour = 3600;
 const secondsInMinute = 60;

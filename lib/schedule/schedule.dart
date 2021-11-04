@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:school_bell/core/time.dart';
+import 'package:school_bell/time.dart';
 
 /// https://kirpalsagaracademy.com/4010000000143.html
 abstract class Schedule {
